@@ -1,0 +1,58 @@
+### Test the server
+GET http://localhost:5000/  
+
+### Create a Group
+POST http://localhost:5000/groups/
+Content-Type: application/json
+
+{
+    "groupName": "devops-engineer",
+    "groupDesc": "This is default group created for all user"
+}
+
+### Create a Action
+POST http://localhost:5000/groups/actions/
+Content-Type: application/json
+
+{
+    "actionName": "action2",
+    "actionDesc": "Checks the quality of the user"
+}
+
+### Create a Group Action
+POST http://localhost:5000/groups/add-action/
+Content-Type: application/json
+
+{
+    "actionId": 2,
+    "groupId": 1
+}
+
+### Get a list of action for a group
+GET http://localhost:5000/groups/actions/1
+
+### Create a new user
+POST http://localhost:5000/users/
+Content-Type: application/json
+
+{
+    "name": "User 3",
+    "email": "tes1dfsft@gmail.com",
+    "password": "79798797sfldjflf"
+}
+
+### Assing User a group
+POST http://localhost:5000/users/group
+Content-Type: application/json
+
+{
+    "userId": 1,
+    "groupId": 3
+}
+
+### Get Users Belong To Which Group
+GET http://localhost:5000/users/groups/1
+
+### Get Users Which Action Is Allowed
+
+GET http://localhost:5000/users/actions/1
