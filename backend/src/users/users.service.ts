@@ -30,12 +30,18 @@ export class UsersService {
     }
 
     async getUserActions(userId: number) {
-    const user = await this.userRepo.findOne({ where: { userId }, relations: ['userGroups', 'userGroups.group', 'userGroups.group.groupActions', 'userGroups.group.groupActions.action'] });
-    if (!user) return null;
+        const user = await this.userRepo.findOne({ where: { userId }, relations: ['userGroups', 'userGroups.group', 'userGroups.group.groupActions', 'userGroups.group.groupActions.action'] });
+        if (!user) return null;
 
-    // Flatten the actions from all groups into a single array
-    const actions = user.userGroups.reduce((acc, userGroup) => [...acc, ...userGroup.group.groupActions.map(groupAction => groupAction.action)], []);
-    const uniqueActions = Array.from(new Set(actions.map(action => action.id))).map(id => actions.find(action => action.id === id))
-    return uniqueActions;
-}
+        // Flatten the actions from all groups into a single array
+        const actions = user.userGroups.reduce((acc, userGroup) => [...acc, ...userGroup.group.groupActions.map(groupAction => groupAction.action)], []);
+        // return actions;
+        const actionMap = {};
+        actions.forEach(action => {
+            actionMap[action.actionId] = action;
+        });
+
+        const uniqueActions = Object.values(actionMap);
+        return uniqueActions;
+    }
 }
