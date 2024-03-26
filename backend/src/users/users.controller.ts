@@ -10,7 +10,7 @@ export class UsersController {
         private usersService: UsersService
     ){}
 
-    @Post('')
+    @Post()
     async createUser(@Body() body: CreateUserDto){
         const user = await this.usersService.createUser(body.name, body.email, body.password);
         return user;
